@@ -1,0 +1,333 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+.navbar2 {
+ 
+    height: 60px;
+    background-color: green;
+    text-align: center;
+  display: flex;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 5px 15px;
+}
+
+.search-input {
+  height: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: none;
+  padding: 20px 20px ;
+  font-size: 16px;
+  border-radius: 20px;
+  width: 500px;
+  outline: none;
+  margin-left: 300px;
+}
+
+.search-input:focus {
+  border: 2px solid #007BFF;
+}
+
+.search-button {
+  height: 72%;
+  width: 5%;
+  background-color: #007BFF;
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  border: none;
+  
+ text-align: center;
+  margin-left: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.search-button:hover {
+  background-color: #073b09;
+}
+
+.navbar2 a {
+  margin-left: 250px;
+  margin-right: 100px;
+    text-decoration: none;
+    color: white;
+    float: right;
+    padding: 25px 5px;
+}
+.hamburger {
+  position: absolute;
+  top: 25px;
+  left: 40px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 25px;
+}
+
+.bar {
+ 
+  height: 5px;
+  background-color: #20140a;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Hamburger icon animation when the menu is open */
+.hamburger.open .bar:nth-child(1) {
+  transform: rotate(45deg);
+  position: relative;
+  top: 10px;
+}
+
+.hamburger.open .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open .bar:nth-child(3) {
+  transform: rotate(-45deg);
+  position: relative;
+  top: -10px;
+}
+
+
+
+
+
+/* styles.css */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+h1 {
+  margin: 0;
+}
+
+.product-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 20px;
+  padding: 20px;
+}
+
+.product {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 250px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  text-align: center;
+}
+
+.product img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.product h2 {
+  margin: 10px 0;
+  font-size: 1.5rem;
+}
+
+.product .description {
+  font-size: 1rem;
+  color: #555;
+}
+
+.product .price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #28a745;
+}
+
+.product button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.product button:hover {
+  background-color: #218838;
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  position:relative;
+  width: 100%;
+  bottom: 0;
+}
+
+
+
+
+.item a {
+  margin-top: 40px;
+  margin-bottom: 40px;
+height: 100px;
+}
+
+
+
+
+.side-menu{
+  position: fixed;
+  width: 250px;
+  height: 100% ;
+  left: -250px;
+  z-index: 99;
+  transition: left 0.4s ease;
+  overflow-y: scroll;
+ 
+}
+
+.side-menu.show{
+  left: 0px;
+}
+.side-menu .text{
+  color: white;
+  font-size: 28px;
+  text-align: center;
+  font-weight: 700;
+  line-height: 100px;
+  text-align: left;
+  background: #0e0e0f;
+  letter-spacing: 1px;
+}
+nav ul{
+  background: #166322;
+  padding: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  height: 100%;
+  width: 100%;
+  list-style: none;
+}
+nav ul li{
+  line-height: 70px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 0;
+}
+nav ul li:last-child{
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+nav ul li a{
+  position: relative;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding-left: 0px;
+  font-weight: 500;
+  display: block;
+  width: 100%;
+  border-left: 3px solid transparent;
+}
+nav ul li.active a{
+  color: cyan;
+  background: #1e1e1e;
+  border-left-color: cyan;
+}
+nav ul li a:hover{
+  background: #1e1e1e;
+}
+nav ul ul{
+  position: static;
+  display: none;
+}
+nav ul .feat-show.show{
+  display: block;
+}
+nav ul .serv-show.show1{
+  display: block;
+}
+nav ul .serv1-show.show2{
+    display: block;
+  }
+  nav ul .serv2-show.show3{
+    display: block;
+  }
+  nav ul .serv3-show.show4{
+    display: block;
+  }
+
+
+  nav ul .feat-show.show{
+    display: block;
+  }
+  nav ul .serv-show.show1{
+    display: block;
+  }
+  nav ul .serv1-show.show2{
+      display: block;
+    }
+    nav ul .serv2-show.show3{
+      display: block;
+    }
+    nav ul .serv3-show.show4{
+      display: block;
+    }
+nav ul ul li{
+  line-height: 42px;
+  border-top: none;
+}
+nav ul ul li a{
+  font-size: 12px;
+  color: #e6e6e6;
+  padding-left: 20px;
+}
+nav ul li.active ul li a{
+  color: #641818;
+  background: #0ca243;
+  border-left-color: transparent;
+}
+nav ul ul li a:hover{
+  color: cyan!important;
+  background: #1e1e1e!important;
+}
+nav ul li a span{
+  position:absolute;
+  top: 50%;
+  right: 60px;
+  transform: translateY(-50%);
+  font-size: 15px;
+  transition: transform 0.4s;
+}
+nav ul li a span.rotate{
+  transform: translateY(-50%) rotate(-180deg);
+}
+

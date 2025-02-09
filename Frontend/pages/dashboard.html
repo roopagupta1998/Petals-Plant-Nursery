@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <script type="module" src="../js/dashboard.js"></script>
+
+
+</head>
+<script>
+  // document.addEventListener("DOMContentLoaded", function () {
+  //   const user = JSON.parse(localStorage.getItem("user"));
+  //   if (!user) {
+  //     window.location.href = "login.html"; // Redirect to login if not logged in
+  //   }
+  //   document.getElementById("username").textContent =user.name
+  // });
+</script>
+
+<body>
+
+  <div class="navbar2">
+    <!-- <input type="text" class="search-input" placeholder="Search products..."> -->
+    <div style="color: chartreuse; font-size: 24px; font-weight: bold;margin-top:15px; margin-left: 1%; text-align: center;">🌿Petals Plants  </div>
+    <a href="./plants/allplants.html">Plants</i></a>
+    <a href="./seeds/allseeds.html">Seeds</i></a>
+    <a href="./soil_fertilizers/soil_fertilizers.html">Soil & Fertilizers</i></a>
+    <a href="./accesories/all_accesories.html">Accesories</i></a>
+  </div>
+  <div class="navBar">
+    <h1>Welcome to Our Store Petals Plant Nuersery</h1>
+    <input type="text" class="search-input" placeholder="Search any products...">
+    <a href="./cart.html"> <i class="fa fa-shopping-cart" style="font-size: 24px;color: blue;"  ></i></a>
+    <a href="#" id="logoutBtn" style="background: red; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-size: 16px;">
+      Logout
+  </a>
+ </div>
+
+  <!-- Header Section -->
+
+  <section class="product-container" id="productContainer"></section>
+  <!-- Footer Section -->
+  <footer>
+    <p>© 2024 My Store. All Rights Reserved.</p>
+  </footer>
+
+  <!-- <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchProducts(); // Fetch and render products on page load
+
+      document.querySelector(".search-input").addEventListener("input", function () {
+        const query = this.value.trim().toLowerCase(); // Trim input to avoid unnecessary filtering
+        fetchProducts(query);
+      });
+    });
+
+    async function fetchProducts(query = "") {
+      try {
+        const response = await fetch("http://localhost:3000/products");
+        const products = await response.json();
+
+        // If query exists, filter products based on name or description
+        const filteredProducts = products.filter(product =>
+          product.name.toLowerCase().includes(query) ||
+          product.description.toLowerCase().includes(query)
+        );
+
+        renderProducts(filteredProducts); // Render the filtered list
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+
+    function renderProducts(products) {
+      const container = document.getElementById("productContainer");
+      container.innerHTML = ""; // Clear previous products
+
+      if (products.length === 0) {
+        container.innerHTML = "<p>No products found.</p>"; // Show message if no products match
+        return;
+      }
+
+      products.forEach(product => {
+        const productDiv = document.createElement("div");
+        productDiv.classList.add("product");
+        productDiv.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h2>${product.name}</h2>
+            <p class="description">${product.description}</p>
+            <p class="price">${product.price}</p>
+            <button class="add-to-cart" onclick="addToCart('${product.name}')">Add to Cart</button>
+        `;
+        container.appendChild(productDiv);
+      });
+    }
+
+    function addToCart(productName) {
+      alert(`${productName} added to cart!`);
+    }
+
+  </script> -->
+  <script type="module" src="../js/cart.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LOGIN PAGE</title>
+  <link rel="stylesheet" href="../css/login.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <script src="../js/auth.js"></script>
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="title">Login Form</div>
+    <form id="loginForm">
+      <div class="row">
+        <i class="fas fa-user"></i>
+        <input type="text" id="email" placeholder="Email" required />
+      </div>
+      <div class="row">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" placeholder="Password" required />
+      </div>
+      <div class="pass"><a href="#" onclick=alert()>Forgot password?</a></div>
+      <div class="row button">
+        <input type="submit" value="Login" />
+      </div>
+      <div class="signup-link">Don't have an Account? <a href="signup.html">Signup Now</a></div>
+    </form>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,219 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Akshat",
+      "email": "akshat@email.com",
+      "password": "password123",
+      "role": "user"
+    },
+    {
+      "id": "2",
+      "name": "Admin",
+      "email": "admin@email.com",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
+      "id": "3",
+      "name": "Roopa",
+      "email": "roopa@email.com",
+      "password": "password123",
+      "role": "user"
+    },
+    {
+      "id": "4",
+      "name": "Reecha",
+      "email": "reecha@gmail.com",
+      "password": "sdfsdgdx",
+      "role": "user"
+    },
+    {
+      "id": "5",
+      "name": "Mukesh",
+      "email": "mukesh@gmail.com",
+      "password": "password@123",
+      "role": "user"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Plants"
+    },
+    {
+      "id": "2",
+      "name": "Accessories"
+    },
+    {
+      "id": "3",
+      "name": "Seeds"
+    },
+    {
+      "id": "4",
+      "name": "Soil & Fertilizers"
+    },
+    {
+      "id": "5",
+      "name": "Featured Plants"
+    }
+  ],
+  "products": [
+    {
+      "id": "001",
+      "name": "Lavender - Flower Seeds",
+      "description": "High-quality lavender seeds for beautiful aromatic flowers.",
+      "price": 74,
+      "image": "https://nurserylive.com/cdn/shop/products/nurserylive-seeds-lavender-flower-seeds-16969077260428_600x600.jpg?v=1634204151",
+      "categoryId": "3",
+      "categoryName": "Seeds"
+    },
+    {
+      "id": "002",
+      "name": "Aster Formula Mixed Colors - Flower Seeds",
+      "description": "Grow colorful aster flowers with this seed mix.",
+      "price": 99,
+      "image": "https://nurserylive.com/cdn/shop/products/nurserylive-seeds-aster-formula-mixed-colors-flower-seeds-16968606449804_600x600.jpg?v=1634202842",
+      "categoryId": "3",
+      "categoryName": "Seeds"
+    },
+    {
+      "id": "003",
+      "name": "Chrysanthemum Carinatum Mixed Color - Flower Seeds",
+      "description": "Beautiful mix of Chrysanthemum flower seeds.",
+      "price": 99,
+      "image": "https://nurserylive.com/cdn/shop/products/nurserylive-seeds-chrysanthemum-carinatum-mixed-color-flower-seeds-16968783888524_600x600.jpg?v=1634203631",
+      "categoryId": "3",
+      "categoryName": "Seeds"
+    },
+    {
+      "id": "004",
+      "name": "Pansy F1 Black Blotch - Flower Seeds",
+      "description": "Grow striking black blotch pansies with these premium seeds.",
+      "price": 149,
+      "image": "https://nurserylive.com/cdn/shop/products/nurserylive-seeds-pansy-f1-black-blotch-flower-seeds-16969156296844_600x600.jpg?v=1634204447",
+      "categoryId": "3",
+      "categoryName": "Seeds"
+    },
+    {
+      "id": "005",
+      "name": "Chrysanthemum Alaska White - Flower Seeds",
+      "description": "Pure white Chrysanthemum seeds for elegant blooms.",
+      "price": 99,
+      "image": "https://nurserylive.com/cdn/shop/products/nurserylive-seeds-chrysanthemum-alaska-white-flower-seeds-16968784052364_600x600.jpg?v=1634203627",
+      "categoryId": "3",
+      "categoryName": "Seeds"
+    },
+    {
+      "id": "006",
+      "name": "Vinca F1 Nana Rose - Flower Seeds",
+      "description": "Compact and colorful vinca flower seeds.",
+      "price": 74,
+      "image": "https://nurserylive.com/cdn/shop/products/nurserylive-seeds-vinca-f1-nana-rose-flower-seeds-16969133785228_600x600.jpg?v=1634205245",
+      "categoryId": "3",
+      "categoryName": "Seeds"
+    },
+    {
+      "id": "007",
+      "name": "Antirrhinum Dwarf Mixed Color - Flower Seeds",
+      "description": "A mix of vibrant Antirrhinum (Snapdragon) flower seeds.",
+      "price": 74,
+      "image": "https://nurserylive.com/cdn/shop/products/nurserylive-seeds-antirrhinum-dwarf-mixed-color-flower-seeds-16968594882700_600x600.jpg?v=1634202821",
+      "categoryId": "3",
+      "categoryName": "Seeds"
+    },
+    {
+      "id": "008",
+      "name": "Petunia Glorious Double Mixed Color - Flower Seeds",
+      "description": "Beautiful double-flowered petunias in mixed colors.",
+      "price": 29,
+      "image": "https://nurserylive.com/cdn/shop/products/nurserylive-seeds-petunia-glorious-double-mixed-color-flower-seeds-16969177661580_600x600.jpg?v=1634204594",
+      "categoryId": "3",
+      "categoryName": "Seeds"
+    },
+    {
+      "id": "009",
+      "name": "Areca Palm",
+      "description": "Low-maintenance indoor air-purifying plant.",
+      "price": 499,
+      "image": "https://plantsguru.com/cdn/shop/files/rosemary-herb-plant.jpg?v=1735618139&width=1100",
+      "categoryId": "1",
+      "categoryName": "Plants"
+    },
+    {
+      "id": "54",
+      "name": "Areca Palm",
+      "description": "Low-maintenance indoor air-purifying plant.",
+      "price": 499,
+      "image": "https://plantsguru.com/cdn/shop/files/rosemary-herb-plant.jpg?v=1735618139&width=1100",
+      "categoryId": "1",
+      "categoryName": "Featured Plants"
+    },
+    {
+      "id": "5654",
+      "name": "Areca Palm",
+      "description": "Low-maintenance indoor air-purifying plant.",
+      "price": 499,
+      "image": "https://plantsguru.com/cdn/shop/files/rosemary-herb-plant.jpg?v=1735618139&width=1100",
+      "categoryId": "1",
+      "categoryName": "Featured Plants"
+    },
+    {
+      "id": "010",
+      "name": "Organic Potting Mix",
+      "description": "Enriched potting mix for healthy plant growth.",
+      "price": 199,
+      "image": "https://nurserylive.com/cdn/shop/products/organic-potting-mix_600x600.jpg?v=1634213357",
+      "categoryId": "5",
+      "categoryName": "Soil & Fertilizers"
+    },
+    {
+      "id": "011",
+      "name": "Anodised Aluminium Wire (1 mm, 33 ft)",
+      "description": "Bonsai training wire for shaping plants.",
+      "price": 299,
+      "image": "https://nurserylive.com/cdn/shop/products/nurserylive-gardening-accessories-3ft-coir-pole-781850_600x600.jpg?v=1679748351",
+      "categoryId": "2",
+      "categoryName": "Accessories"
+    },
+    {
+      "id": "012",
+      "name": "Garden Pruning Shears",
+      "description": "High-quality pruning shears for precise trimming.",
+      "price": 349,
+      "image": "https://nurserylive.com/cdn/shop/products/nurserylive-gardening-accessories-moss-stick-3-feet-16969036038284_400x400.jpg?v=1634224468",
+      "categoryId": "2",
+      "categoryName": "Accessories"
+    }
+  ],
+  "cart": [
+    {
+      "userId": "1",
+      "items": [
+        {
+          "productId": "6879",
+          "quantity": 2,
+          "totalPrice": 198
+        },
+        {
+          "productId": "a410",
+          "quantity": 1,
+          "totalPrice": 99
+        }
+      ],
+      "id": "f65d"
+    },
+    {
+      "userId": "3",
+      "items": [
+        {
+          "productId": "4e32",
+          "quantity": 3,
+          "totalPrice": 447
+        }
+      ],
+      "id": "d7b9"
+    }
+  ],
+  "orders": []
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accesories</title>
+    <link rel="stylesheet" href="../../css/products.css">
+    <script type="module" src="../../js/accesories.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+</head>
+<body>
+    <header style="display: flex; align-items: center; justify-content: space-between; padding: 10px; background: #333; color: white;">
+        <!-- Back Button -->
+        <a href="javascript:history.back()" style="text-decoration: none; font-size: 20px; font-weight: bold; color: #007bff;">
+            &#8592; Back
+        </a>
+    
+        <!-- Centered Title -->
+        <h1 style="margin: 0; position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap;">
+            Accesories
+        </h1>    
+    
+        <!-- Cart & Logout Section -->
+        <div style="display: flex; align-items: center; gap: 20px; margin-left: auto;">
+            <!-- Cart Icon -->
+            <a href="../cart.html">
+                <i class="fa fa-shopping-cart" style="font-size: 24px; color: blue;"></i>
+            </a>
+            <!-- Logout Button -->
+            <a href="#" id="logoutBtn" style="background: red; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-size: 16px;">
+                Logout
+            </a>
+        </div>
+    </header>
+    <section class="product-container" id="productContainer"></section>
+    <script type="module" src="../../js/cart.js"></script>
+
+</body>
+</html>
