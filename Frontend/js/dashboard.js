@@ -47,7 +47,12 @@ function renderProducts(products) {
       <p class="description">${product.description}</p>
       <p class="category">Category: ${product.categoryName}</p>
       <p class="price">₹${product.price}</p>
-      <button class="add-to-cart" data-name="${product.name}">Add to Cart</button>
+      <button class="add-to-cart" data-id="${product.id}"
+    data-name="${product.name}"
+    data-category="${product.category}"
+    data-description="${product.description}"
+    data-price="${product.price}"
+    data-image="${product.image}">Add to Cart</button>
     `;
     container.appendChild(productDiv);
   });
