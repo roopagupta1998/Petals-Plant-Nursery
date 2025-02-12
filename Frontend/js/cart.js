@@ -21,6 +21,7 @@ function proceedToCheckout() {
         window.location.href = "cart.html";
     }
 }
+
 // Initialize the cart and update UI
 function initializeCart() {
     let cartContainer = document.getElementById("cartItems");
