@@ -1,0 +1,112 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url("https://img.freepik.com/free-photo/top-view-fern-leaves-with-copy-space_23-2148678645.jpg?semt=ais_hybrid");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Container for button and form */
+.container {
+    text-align: center;
+}
+
+/* Add Product button */
+
+#add-product-btn{
+    padding: 15px 30px;
+    background-color: rgb(0, 82, 37);
+    color: white;
+    text-decoration: none;
+    font-size: medium;
+    border-radius: 10px;
+    width: 160px;
+    height: 100px;
+    transition: background-color 0.3s ease , transform 0.3s ease;
+
+}
+
+#add-product-btn:hover{
+    background-color: rgb(4, 58, 4);
+    transform: scale(1.1);
+
+}
+#add-product-btn:active{
+    background-color: rgb(226, 5, 119);
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical; /* Allow vertical resizing for textarea */
+    height: 100px;
+}
+
+button {
+    padding: 10px;
+    background-color: #0e4510;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 49%;
+    margin: 5px 0;
+}
+
+button:hover {
+    background-color: #052407;
+}
+
+#cancel-btn {
+    background-color: #d11a0d;
+}
+
+#cancel-btn:hover {
+    background-color: #71100e;
+}

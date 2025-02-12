@@ -38,43 +38,46 @@ function renderProducts(products) {
     return;
   }
 
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
   products.forEach(product => {
     const productDiv = document.createElement("div");
     productDiv.classList.add("product");
+
+    const isInCart = cart.some(item => item.id === product.id);
+
     productDiv.innerHTML = `
       <img src="${product.image}" alt="${product.name}">
       <h2>${product.name}</h2>
       <p class="description">${product.description}</p>
       <p class="category">Category: ${product.categoryName}</p>
       <p class="price">₹${product.price}</p>
-      <button class="add-to-cart" data-id="${product.id}"
-    data-name="${product.name}"
-    data-category="${product.category}"
-    data-description="${product.description}"
-    data-price="${product.price}"
-    data-image="${product.image}">Add to Cart</button>
+      <button class="add-to-cart" data-id="${product.id}">
+        ${isInCart ? "View Cart" : "Add to Cart"}
+      </button>
     `;
+
     container.appendChild(productDiv);
-  });
 
+    // Attach event listener for the button
+    const button = productDiv.querySelector(".add-to-cart");
 
-    // Attach event listeners after loading products
-    document.querySelectorAll(".add-to-cart").forEach(button => {
+    if (isInCart) {
+      // 🔹 If already in cart, clicking should directly go to cart page
+      button.onclick = function () {
+        window.location.href = "cart.html";
+      };
+    } else {
+      // 🔹 If not in cart, clicking should add the product
       button.addEventListener("click", function () {
-        const product = {
-          id: this.getAttribute("data-id"),
-          name: this.getAttribute("data-name"),
-          category: this.getAttribute("data-category"),
-          description: this.getAttribute("data-description"),
-          price: parseFloat(this.getAttribute("data-price")),
-          image: this.getAttribute("data-image"),
-          quantity: 1
-        };
-  
-        addToCart(product);
+        addToCart(product, button,'/Frontend/pages/cart.html');
       });
-    });
+    }
+  });
 }
+
+
+
     // 🔹 Logout Function
     const logoutBtn = document.getElementById("logoutBtn");
     if (logoutBtn) {

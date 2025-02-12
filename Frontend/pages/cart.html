@@ -4,16 +4,154 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart & Checkout</title>
-    <link rel="stylesheet" href="../css/cart.css">
-</head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
 
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+        }
+
+        h1 {
+            flex-grow: 1;
+            text-align: center;
+            margin: 0;
+        }
+
+        .cart-container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto; /* Center the container with margin from top */
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-item p {
+            margin: 0;
+        }
+
+        .cart-item .product-name {
+            flex: 2;
+            padding-right: 20px;
+        }
+
+        .cart-item .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            justify-content: flex-end;
+        }
+
+        .quantity-controls button {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .quantity-controls button:disabled {
+            cursor: not-allowed;
+            background-color: #e0e0e0;
+            color: #888
+        }
+        .quantity-controls span {
+            font-size: 18px;
+            padding: 0 10px;
+        }
+
+        .cart-item .product-price {
+            flex: 1;
+            text-align: right;
+        }
+
+        #checkout-button, #clear-button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #checkout-button:hover, #clear-button:hover {
+            background-color: #0056b3;
+        }
+
+        #totalPrice {
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 18px;
+        }
+
+        #checkout-section {
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            display: none; /* Hide initially */
+        }
+
+        #checkout-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #checkout-form input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #checkout-form button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #checkout-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
 <body>
-    <header style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
-        <a href="javascript:history.back()" style="text-decoration: none; font-size: 20px; font-weight: bold; color: #007bff;">
+
+    <header>
+        <a href="javascript:history.back()" style="text-decoration: none; font-size: 20px; font-weight: bold; color: #fff;">
             &#8592;Back
         </a>
-        <h1 style="flex-grow: 1; text-align: center; margin: 0;">Our Store</h1>
-        <span style="width: 32px;"></span> <!-- Placeholder to balance layout -->
+        <h1>Our Store</h1>
+        <span style="width: 32px;"></span>
     </header>
 
     <main>
@@ -22,9 +160,8 @@
             <div id="cartItems"></div>
             <p id="totalPrice">Total: ₹0</p>
 
-            <button id="checkout-button">Proceed to Checkout</button>
-            <button id="checkout-button" onclick="clearCart()">Clear Cart</button>
-
+            <button id="checkout-button" disabled>Proceed to Checkout</button>
+            <button id="clear-button" onclick="clearCart()">Clear Cart</button>
         </div>
 
         <div id="checkout-section" class="checkout-section">
@@ -39,29 +176,6 @@
         </div>
     </main>
 
-    <script src="../js/cart.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            let cartContainer = document.getElementById("cartItems");
-
-            if (cart.length === 0) {
-                cartContainer.innerHTML = "<p>Your cart is empty.</p>";
-                return;
-            }
-
-            cart.forEach(item => {
-                let itemDiv = document.createElement("div");
-                itemDiv.innerHTML = `<p>${item.name} - Quantity: ${item.quantity}</p>`;
-                cartContainer.appendChild(itemDiv);
-            });
-        });
-
-        function clearCart() {
-            localStorage.removeItem("cart");
-            alert("Cart cleared!");
-            window.location.reload();
-        }
-    </script>
+    <script type="module" src="../js/cart.js" defer></script>
 </body>
 </html>

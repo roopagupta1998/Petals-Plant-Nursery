@@ -37,39 +37,39 @@ function renderProducts(products) {
     return;
   }
 
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
   products.forEach(product => {
     const productDiv = document.createElement("div");
     productDiv.classList.add("product");
+
+    // ✅ Check if product is already in the cart
+    const isInCart = cart.some(item => item.id === product.id);
+
     productDiv.innerHTML = `
       <img src="${product.image}" alt="${product.name}">
       <h2>${product.name}</h2>
       <p class="description">${product.description}</p>
-      <p class="price">${product.price}</p>
-      <button class="add-to-cart" data-id="${product.id}"
-    data-name="${product.name}"
-    data-category="${product.category}"
-    data-description="${product.description}"
-    data-price="${product.price}"
-    data-image="${product.image}">Add to Cart</button>
+      <p class="price">₹${product.price}</p>
+      <button class="add-to-cart" data-id="${product.id}">
+        ${isInCart ? "View Cart" : "Add to Cart"}
+      </button>
     `;
+
     container.appendChild(productDiv);
-  });
 
-
-    // Attach event listeners after loading products
-    document.querySelectorAll(".add-to-cart").forEach(button => {
+    // ✅ Attach event listener
+    const button = productDiv.querySelector(".add-to-cart");
+    
+    // ✅ If already in cart, make the button redirect immediately
+    if (isInCart) {
+      button.onclick = function () {
+        window.location.href = "/Frontend/pages/cart.html";  // ✅ Redirect instantly
+      };
+    } else {
       button.addEventListener("click", function () {
-        const product = {
-          id: this.getAttribute("data-id"),
-          name: this.getAttribute("data-name"),
-          category: this.getAttribute("data-category"),
-          description: this.getAttribute("data-description"),
-          price: parseFloat(this.getAttribute("data-price")),
-          image: this.getAttribute("data-image"),
-          quantity: 1
-        };
-  
-        addToCart(product);
+        window.addToCart(product, button,'/Frontend/pages/cart.html');
       });
-    });
+    }
+  });
 }
