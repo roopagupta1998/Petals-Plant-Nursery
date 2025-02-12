@@ -1,12 +1,14 @@
-import { fetchProducts } from "../js/api.js";
+import { fetchProducts} from "../js/api.js";
+import { handleLogoutButton } from "../js/logout.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await loadAllProducts(); // Load all products initially
-
+  await handleLogoutButton()
   document.querySelector(".search-input").addEventListener("input", async function () {
     const query = this.value.trim().toLowerCase();
     await fetchAndRenderAllProducts(query);
   });
+
 });
 
 // Function to load all products initially
@@ -78,11 +80,11 @@ function renderProducts(products) {
 
 
 
-    // 🔹 Logout Function
-    const logoutBtn = document.getElementById("logoutBtn");
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", function () {
-            localStorage.removeItem("user");
-            window.location.href = "login.html";
-        });
-    }
+    // // 🔹 Logout Function
+    // const logoutBtn = document.getElementById("logoutBtn");
+    // if (logoutBtn) {
+    //     logoutBtn.addEventListener("click", function () {
+    //         localStorage.removeItem("user");
+    //         window.location.href = "login.html";
+    //     });
+    // }

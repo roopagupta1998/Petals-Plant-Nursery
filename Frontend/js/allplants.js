@@ -1,13 +1,9 @@
 import { fetchProducts } from "../js/api.js";
+import { handleLogoutButton } from "../js/logout.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await loadPlants(); // Fetch and display only plants on page load
-
-  // Search event listener
-  // document.querySelector(".search-input").addEventListener("input", async function () {
-  //   const query = this.value.trim().toLowerCase();
-  //   await fetchAndRenderPlants(query);
-  // });
+  await handleLogoutButton()
 });
 
 // Function to fetch and display only plant products

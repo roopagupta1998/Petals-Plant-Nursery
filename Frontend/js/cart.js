@@ -1,7 +1,26 @@
 document.addEventListener("DOMContentLoaded", function () {
     initializeCart();
+    let checkoutButton = document.getElementById("checkout-button");
+
+    if (checkoutButton) {
+        checkoutButton.addEventListener("click", function () {
+            proceedToCheckout();
+        });
+    }
 });
 
+function proceedToCheckout() {
+    const isLoggedIn = Boolean(localStorage.getItem("userToken")); // Example check
+
+    if (!isLoggedIn) {
+        const confirmLogin = confirm("You are not logged in. Please login to proceed.");
+        if (confirmLogin) {
+            window.location.href = "login.html";
+        }
+    } else {
+        window.location.href = "cart.html";
+    }
+}
 // Initialize the cart and update UI
 function initializeCart() {
     let cartContainer = document.getElementById("cartItems");
@@ -40,9 +59,6 @@ window.addToCart = function (product, buttonElement,pathToRedirect) {
         };
     }
 };
-
-
-
 
 // Function to update the cart UI
 function updateCartUI() {

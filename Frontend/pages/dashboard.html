@@ -15,15 +15,7 @@
 
 
 </head>
-<script>
-  // document.addEventListener("DOMContentLoaded", function () {
-  //   const user = JSON.parse(localStorage.getItem("user"));
-  //   if (!user) {
-  //     window.location.href = "login.html"; // Redirect to login if not logged in
-  //   }
-  //   document.getElementById("username").textContent =user.name
-  // });
-</script>
+
 
 <body>
 
@@ -52,62 +44,6 @@
   <footer>
     <p>© 2024 My Store. All Rights Reserved.</p>
   </footer>
-
-  <!-- <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      fetchProducts(); // Fetch and render products on page load
-
-      document.querySelector(".search-input").addEventListener("input", function () {
-        const query = this.value.trim().toLowerCase(); // Trim input to avoid unnecessary filtering
-        fetchProducts(query);
-      });
-    });
-
-    async function fetchProducts(query = "") {
-      try {
-        const response = await fetch("http://localhost:3000/products");
-        const products = await response.json();
-
-        // If query exists, filter products based on name or description
-        const filteredProducts = products.filter(product =>
-          product.name.toLowerCase().includes(query) ||
-          product.description.toLowerCase().includes(query)
-        );
-
-        renderProducts(filteredProducts); // Render the filtered list
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    }
-
-    function renderProducts(products) {
-      const container = document.getElementById("productContainer");
-      container.innerHTML = ""; // Clear previous products
-
-      if (products.length === 0) {
-        container.innerHTML = "<p>No products found.</p>"; // Show message if no products match
-        return;
-      }
-
-      products.forEach(product => {
-        const productDiv = document.createElement("div");
-        productDiv.classList.add("product");
-        productDiv.innerHTML = `
-            <img src="${product.image}" alt="${product.name}">
-            <h2>${product.name}</h2>
-            <p class="description">${product.description}</p>
-            <p class="price">${product.price}</p>
-            <button class="add-to-cart" onclick="addToCart('${product.name}')">Add to Cart</button>
-        `;
-        container.appendChild(productDiv);
-      });
-    }
-
-    function addToCart(productName) {
-      alert(`${productName} added to cart!`);
-    }
-
-  </script> -->
 
 </body>
 
