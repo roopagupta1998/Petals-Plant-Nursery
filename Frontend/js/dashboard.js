@@ -2,6 +2,13 @@ import { fetchProducts} from "../js/api.js";
 import { handleLogoutButton } from "../js/logout.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const welcomeMessage = document.getElementById("welcomeMessage");
+
+  welcomeMessage.textContent = user && user.name 
+      ? `Welcome back, ${user.name}!` 
+      : "Welcome to Petals Plant Nursery!";
+      
   await loadAllProducts(); // Load all products initially
   await handleLogoutButton()
   document.querySelector(".search-input").addEventListener("input", async function () {

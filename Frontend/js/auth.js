@@ -1,18 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     const user = JSON.parse(localStorage.getItem("user"));
-    const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
 
     if (user) {
-        // If logged in, allow only dashboard
-        if (currentPage !== "dashboard.html") {
-            window.location.href = "dashboard.html"; // Redirect to dashboard
-        }
-    } else {
-        // If NOT logged in, allow only login & signup
-        const allowedPages = ["login.html", "signup.html"];
-        if (!allowedPages.includes(currentPage)) {
-            window.location.href = "login.html"; // Redirect to login
-        }
+        // Redirect logged-in users to dashboard or home page
+        window.location.href = "dashboard.html";
     }
 
     // 🔹 Login Form Handling
