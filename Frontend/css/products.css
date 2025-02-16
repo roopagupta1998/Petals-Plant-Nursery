@@ -331,3 +331,15 @@ nav ul li a span.rotate{
   transform: translateY(-50%) rotate(-180deg);
 }
 
+.shopping span {
+  background: red;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  position:absolute;
+  top: 10px;
+  left: 98%;
+  padding: 3px 10px;
+}

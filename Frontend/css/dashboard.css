@@ -113,22 +113,6 @@ footer {
 /* add to cart */
 
 
-
-
-.shopping span{
-  background: red;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  position:absolute;
-  top: 14px;
-  left: 84%;
-  margin-right: 40px;
-  padding: 3px 10px;
-}
-
 .list{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -226,4 +210,18 @@ footer {
 }
 .listCard .count{
   margin: 0 10px;
+}
+
+.shopping span {
+  background: red;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  position:absolute;
+  top: 70px;
+  left: 92%;
+  margin-right: 40px;
+  padding: 3px 10px;
 }
