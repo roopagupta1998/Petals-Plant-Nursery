@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     initializeCart();
+
     let checkoutButton = document.getElementById("checkout-button");
 
     if (checkoutButton) {
@@ -7,6 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
             proceedToCheckout();
         });
     }
+    updateCartQuantity(); // On page load, update the cart quantity
+
 });
 
 function proceedToCheckout() {
@@ -50,6 +53,7 @@ window.addToCart = function (product, buttonElement,pathToRedirect) {
 
         alert(`${product.name} added to cart!`);
     }
+    updateCartQuantity(); // This will automatically update the cart quantity wherever it's displayed
 
     // 🔹 Directly Update the Button to "View Cart" **Immediately**
     if (buttonElement) {
@@ -137,6 +141,20 @@ function adjustQuantity(productId, change) {
     localStorage.setItem("cart", JSON.stringify(cart));
     updateCartUI();
 }
+
+// Function to update the cart quantity (the number of items in the cart)
+function updateCartQuantity() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let cartQuantity = cart.reduce((total, item) => total + item.quantity, 0); // Total quantity of all items
+  
+    // Select all elements with the 'quantity' class (the cart quantity indicator)
+    let quantityElements = document.querySelectorAll('.quantity');
+  
+    // Update each element with the cart quantity
+    quantityElements.forEach(element => {
+      element.textContent = cartQuantity > 0 ? cartQuantity : 0; // Show cart quantity, or 0 if empty
+    });
+  }
 
 // Function to clear the cart
 window.clearCart = function () {
