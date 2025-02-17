@@ -23,6 +23,8 @@
       <div class="row">
         <i class="fas fa-lock"></i>
         <input type="password" id="password" placeholder="Password" required />
+        <i class="fas fa-eye eye-icon" onclick="togglePassword(this)"></i>
+
       </div>
       <div class="pass"><a href="./forgetpassword.html">Forgot password?</a></div>
       <div class="row button">
@@ -32,5 +34,13 @@
     </form>
   </div>
 </body>
+<script>
+  function togglePassword(icon) {
+    const input = icon.previousElementSibling;
+    input.type = input.type === "password" ? "text" : "password";
+    icon.classList.toggle("fa-eye-slash");
+    icon.classList.toggle("fa-eye");
+  }
+</script>
 
 </html>

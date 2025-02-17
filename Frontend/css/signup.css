@@ -91,3 +91,17 @@
   form .text h3 a:hover{
     text-decoration: underline;
   }
+  .input-box {
+    position: relative; /* This is required for absolute positioning inside */
+  }
+  
+  .eye-icon {
+    position: absolute;
+    right: 10px; /* Align to the right inside input-box */
+    top: 50%; 
+    transform: translateY(-50%); /* Center vertically */
+    cursor: pointer;
+    color: gray;
+  }
+  
+  
