@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+        updateCartQuantity(); // On page load, update the cart quantity
+
     initializeCart();
 
     let checkoutButton = document.getElementById("checkout-button");
@@ -8,12 +10,11 @@ document.addEventListener("DOMContentLoaded", function () {
             proceedToCheckout();
         });
     }
-    updateCartQuantity(); // On page load, update the cart quantity
 
 });
 
 function proceedToCheckout() {
-    const isLoggedIn = Boolean(localStorage.getItem("userToken")); // Example check
+    const isLoggedIn = Boolean(localStorage.getItem("user")); // Example check
 
     if (!isLoggedIn) {
         const confirmLogin = confirm("You are not logged in. Please login to proceed.");
@@ -21,6 +22,7 @@ function proceedToCheckout() {
             window.location.href = "login.html";
         }
     } else {
+        alert()
         window.location.href = "cart.html";
     }
 }
@@ -41,29 +43,36 @@ function initializeCart() {
 }
 
 // Function to add an item to the cart
-window.addToCart = function (product, buttonElement,pathToRedirect) {
+window.addToCart = function (product, buttonElement, pathToRedirect) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const userId = userData && userData.id ? userData.id : 'guest';  // Use user ID if logged in, otherwise 'guest'
 
     let existingProduct = cart.find(item => item.id === product.id);
     if (!existingProduct) {
+        // If the product isn't in the cart, add it with quantity 1 and user ID
         product.quantity = 1;
+        product.userId = userId;  // Set userId
         cart.push(product);
-        localStorage.setItem("cart", JSON.stringify(cart));
-        updateCartUI(); // ✅ Update the cart UI
-
-        alert(`${product.name} added to cart!`);
+        alert(`${product.name} added to cart!`);  // Show alert when product is added
+    } else {
+        // If the product already exists, increase its quantity
+        existingProduct.quantity += 1;
     }
-    updateCartQuantity(); // This will automatically update the cart quantity wherever it's displayed
+
+    localStorage.setItem("cart", JSON.stringify(cart)); // Save updated cart
+    updateCartUI(); // Update the cart UI
+    updateCartQuantity();  // Update the cart quantity wherever it's displayed
 
     // 🔹 Directly Update the Button to "View Cart" **Immediately**
     if (buttonElement) {
         buttonElement.textContent = "View Cart";
         buttonElement.onclick = function () {
-            console.log("PATJ TP REDIRC",pathToRedirect)
             window.location.href = pathToRedirect; // Redirect to cart page
         };
     }
 };
+
 
 // Function to update the cart UI
 function updateCartUI() {
