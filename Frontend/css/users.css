@@ -1,0 +1,44 @@
+* {
+    
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+   
+body{
+    margin: 0px;
+  
+    background-image: url("https://static.vecteezy.com/system/resources/thumbnails/031/624/325/small_2x/background-for-productgraphy-ai-generated-photo.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Table Styles */
+table {
+    width: 80%;
+    margin: 10% auto;
+    border-collapse: collapse;
+    border: 2px solid #085610;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #090e0d;
+}
+
+th {
+    background-color: #0b570d;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #327fba;
+}
+tr:nth-child(odd) {
+    background-color: #d9eaee;
+}
+
+td:hover {
+    background-color: #a423a4;
+}

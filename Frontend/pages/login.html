@@ -19,10 +19,13 @@
       <div class="row">
         <i class="fas fa-user"></i>
         <input type="text" id="email" placeholder="Email" required />
+        <span id="emailError" class="error-message"></span>
       </div>
       <div class="row">
         <i class="fas fa-lock"></i>
         <input type="password" id="password" placeholder="Password" required />
+        <span id="passwordError" class="error-message"></span>
+
         <i class="fas fa-eye eye-icon" onclick="togglePassword(this)"></i>
 
       </div>

@@ -159,4 +159,13 @@
   width: auto;
   height: auto;
 }
+.error-message {
+  color: red;
+  font-size: 14px;
+  display: block;
+}
+
+.error-border {
+  border: 1px solid red;
+}
 

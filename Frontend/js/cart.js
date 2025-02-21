@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
             proceedToCheckout();
         });
     }
-
 });
 
 function proceedToCheckout() {
@@ -22,8 +21,8 @@ function proceedToCheckout() {
             window.location.href = "login.html";
         }
     } else {
-        alert()
-        window.location.href = "cart.html";
+        // alert()
+        window.location.href = "checkout.html";
     }
 }
 
@@ -72,7 +71,6 @@ window.addToCart = function (product, buttonElement, pathToRedirect) {
         };
     }
 };
-
 
 // Function to update the cart UI
 function updateCartUI() {
