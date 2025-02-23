@@ -56,11 +56,17 @@ app.post('/login', async (req, res) => {
     // Compare Password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials',data:{...req.body} });
+      return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    res.status(200).json({ message: 'Login successful' });
-  });
+    res.status(200).json({ 
+      message: 'Login successful',
+      data: { 
+          _id: user._id, // Assuming MongoDB is used
+          email: email,
+          name:user.name 
+      } 
+  });  });
   
 
   // Get All Products
@@ -84,6 +90,52 @@ app.post('/products', async (req, res) => {
     }
   });
 
+
+  app.post('/add-to-cart', async (req, res) => {
+    const { userId, productId, quantity } = req.body;
+
+    try {
+        // Verify if user exists using _id from MongoDB
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid user' });
+        }
+
+        // Verify if product exists using its _id
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(400).json({ message: 'Invalid product' });
+        }
+
+        // Check if the cart for the user already exists
+        let cart = await Cart.findOne({ userId });
+
+        if (cart) {
+            // If product already exists in cart, update the quantity
+            let existingProduct = cart.items.find(item => item.productId.toString() === productId);
+
+            if (existingProduct) {
+                existingProduct.quantity += quantity;
+            } else {
+                // If product doesn't exist, add new item to the cart
+                cart.items.push({ productId, quantity });
+            }
+            await cart.save();
+        } else {
+            // Create a new cart for the user
+            cart = new Cart({
+                userId,
+                items: [{ productId, quantity }]
+            });
+            await cart.save();
+        }
+
+        res.status(200).json({ message: 'Cart updated successfully', cart });
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 // ================== Start Server ==================
 const PORT = 3000;
 app.listen(PORT, () => {

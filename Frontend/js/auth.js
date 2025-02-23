@@ -11,27 +11,29 @@ document.addEventListener("DOMContentLoaded", function () {
     if (loginForm) {
         loginForm.addEventListener("submit", async function (event) {
             event.preventDefault(); // Prevent form submission
-
+    
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-
+    
             try {
-                // Fetch users from JSON Server
-                const response = await fetch("http://localhost:3000/users");
-                if (!response.ok) {
-                    throw new Error("Failed to fetch user data");
-                }
+                // Send login request to backend
+                const response = await fetch("http://localhost:3000/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+    
+                const data = await response.json();
+                console.log("data",data)
 
-                const users = await response.json();
-
-                // Check if user exists
-                const user = users.find(u => u.email === email && u.password === password);
-                if (user) {
-                    alert(`Login successful! Welcome ${user.name}`);
-                    localStorage.setItem("user", JSON.stringify(user)); // Store user data
+                if (response.ok) {
+                    alert(`Login successful! Welcome ${data.data.name}`);
+                    localStorage.setItem("user", JSON.stringify(data.data)); // Store user data
                     window.location.href = "dashboard.html"; // Redirect to dashboard
                 } else {
-                    alert("Invalid email or password");
+                    alert(data.message || "Invalid email or password");
                 }
             } catch (error) {
                 console.error("Login error:", error);
@@ -39,56 +41,53 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+    
 
     // 🔹 Signup Form Handling
-    document.getElementById("signupForm").addEventListener("submit", async function (event) {
+// 🔹 Signup Form Handling
+const signupForm = document.getElementById("signupForm");
+if (signupForm) {
+    signupForm.addEventListener("submit", async function (event) {
         event.preventDefault(); // Prevent default form submission
-    
+
         const name = document.getElementById("name").value.trim();
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
-    
+
         if (!name || !email || !password) {
             alert("All fields are required!");
             return;
         }
-    
+
         try {
-            const response = await fetch("http://localhost:3000/users");
-            if (!response.ok) throw new Error("Failed to fetch user data");
-    
-            const users = await response.json();
-    
-            // Check if email is already registered
-            if (users.some(user => user.email === email)) {
-                alert("Email already registered! Please login.");
-                return;
-            }
-    
-            // New user data
-            const newUser = { name, email, password, role: "user" };
-    
-            // Send POST request
-            const postResponse = await fetch("http://localhost:3000/users", {
+            // Send signup request to backend
+            const response = await fetch("http://localhost:3000/signup", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(newUser)
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, email, password })
             });
-    
-            if (!postResponse.ok) throw new Error("Failed to register user.");
-    
-            // Show confirmation before redirecting
-            setTimeout(() => {
-                if (confirm("Signup successful! Click OK to go to the login page.")) {
-                    window.location.href = "login.html"; // Redirect only if user clicks OK
-                }
-            }, 100); 
-    
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Show confirmation before redirecting
+                setTimeout(() => {
+                    if (confirm("Signup successful! Click OK to go to the login page.")) {
+                        window.location.href = "login.html"; // Redirect only if user clicks OK
+                    }
+                }, 100); 
+            } else {
+                alert(data.message || "Failed to register user.");
+            }
         } catch (error) {
             console.error("Signup error:", error);
             alert("An error occurred during signup. Please try again.");
         }
     });
+}
+
     
 
     //forget PAssword Form
