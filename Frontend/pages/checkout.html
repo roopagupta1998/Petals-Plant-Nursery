@@ -3,60 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Checkout</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f4f4f9;
-        }
         .checkout-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .checkout-container h2 {
-            text-align: center;
-        }
-        .price-details {
-            border-top: 1px solid #ddd;
-            padding-top: 15px;
-        }
-        .price-details p {
-            display: flex;
-            justify-content: space-between;
-            margin: 8px 0;
-        }
-        .total-amount {
-            font-weight: bold;
-            font-size: 18px;
-            border-top: 1px solid #ddd;
-            padding-top: 15px;
-        }
-        .cod-option {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .cod-option button {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .cod-option button:hover {
-            background-color: #218838;
-        }
+    background-color: white;
+    padding: 20px;
+    width: 40%;
+    margin: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.checkout-container h2,
+.price-details h3 {
+    color: #333;
+}
+
+.checkout-form {
+    margin-bottom: 20px;
+}
+
+.checkout-form label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #555;
+}
+
+.checkout-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.price-details {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.price-details p {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+    color: #444;
+}
+
+.price-details .total-amount {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #000;
+}
+
+.cod-option {
+    margin-top: 20px;
+}
+
+.cod-option p {
+    color: #555;
+}
+
+#placeOrderBtn {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#placeOrderBtn:hover {
+    background-color: #218838;
+}
+
     </style>
 </head>
+<script type="module" src="../js/checkout.js"></script>
+
 <body>
     <div class="checkout-container">
-        <h2>Checkout</h2>
+        <!-- <h2>Checkout</h2> -->
+    
+        <!-- Shipping Details Form -->
+        <div class="checkout-form">
+            <h2>Shipping Details</h2>
+            <form id="checkoutForm">
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" required>
+    
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+    
+                <label for="shippingAddress">Shipping Address:</label>
+                <input type="text" id="shippingAddress" name="shippingAddress" required>
+            </form>
+        </div>
+    
+        <!-- Price Details Section -->
         <div class="price-details">
+            <h3>Price Details</h3>
             <p>Total Items: <span id="totalItems">0</span></p>
             <p>Price: ₹<span id="totalPrice">0</span></p>
             <p>Discount: ₹<span id="discount">0</span></p>
@@ -64,53 +114,13 @@
             <p>Delivery Charges: ₹<span id="deliveryCharges">0</span></p>
             <p class="total-amount">Total Amount: ₹<span id="totalAmount">0</span></p>
         </div>
-
+    
+        <!-- Place Order Button -->
         <div class="cod-option">
-            <p><strong>Payment Option:</strong></p>
-            <p>Cash on Delivery</p>
+            <p><strong>Payment Option:</strong> Cash on Delivery</p>
             <button id="placeOrderBtn">Place Order</button>
         </div>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            let totalItems = 0;
-            let totalPrice = 0;
-            let discount = 0;
-            let platformFee = 50; // Fixed platform fee
-            let deliveryCharges = 30; // Fixed delivery charges
-
-            cart.forEach(item => {
-                totalItems += item.quantity;
-                totalPrice += item.price * item.quantity;
-            });
-
-            // Calculate Discount (10% as an example)
-            discount = totalPrice * 0.1;
-
-            // Calculate Total Amount
-            let totalAmount = totalPrice - discount + platformFee + deliveryCharges;
-
-            // Update UI
-            document.getElementById("totalItems").textContent = totalItems;
-            document.getElementById("totalPrice").textContent = totalPrice;
-            document.getElementById("discount").textContent = discount.toFixed(2);
-            document.getElementById("platformFee").textContent = platformFee;
-            document.getElementById("deliveryCharges").textContent = deliveryCharges;
-            document.getElementById("totalAmount").textContent = totalAmount.toFixed(2);
-
-            // Place Order Button Click
-            document.getElementById("placeOrderBtn").addEventListener("click", function () {
-                if (confirm("Are you sure you want to place the order?")) {
-                    // Clear the cart
-                    localStorage.removeItem("cart");
-
-                    // Redirect to Order Confirmation Page (create order-confirmation.html)
-                    window.location.href = "order-confirmation.html";
-                }
-            });
-        });
-    </script>
+    
 </body>
 </html>

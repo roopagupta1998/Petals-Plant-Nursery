@@ -17,7 +17,7 @@ async function loadPlants() {
 async function fetchAndRenderPlants(query = "") {
   const products = await fetchProducts();
   const filteredPlants = products.filter(product =>
-    product.category === "Plants" && 
+    product.categoryName === "Plants" && 
     (product.name.toLowerCase().includes(query) || product.description.toLowerCase().includes(query))
   );
   renderProducts(filteredPlants);
@@ -33,21 +33,31 @@ function renderProducts(products) {
     return;
   }
 
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  function getUserCartKey() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user ? `cart_${user._id}` : 'tempCart';
+}
+
+const cartKey = getUserCartKey();
+
+let cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
+if (!Array.isArray(cart)) {
+  cart = [];
+}
 
   products.forEach(product => {
     const productDiv = document.createElement("div");
     productDiv.classList.add("product");
 
     // ✅ Check if product is already in the cart
-    const isInCart = cart.some(item => item.id === product.id);
+    const isInCart = cart.some(item => item._id === product._id);
 
     productDiv.innerHTML = `
       <img src="${product.image}" alt="${product.name}">
       <h2>${product.name}</h2>
       <p class="description">${product.description}</p>
       <p class="price">₹${product.price}</p>
-      <button class="add-to-cart" data-id="${product.id}">
+      <button class="add-to-cart" data-id="${product._id}">
         ${isInCart ? "View Cart" : "Add to Cart"}
       </button>
     `;

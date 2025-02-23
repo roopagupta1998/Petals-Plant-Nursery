@@ -47,13 +47,25 @@ function renderProducts(products) {
     return;
   }
 
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  function getUserCartKey() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user ? `cart_${user._id}` : 'tempCart';
+  }
 
+  const cartKey = getUserCartKey();
+
+  // ✅ Ensure cart is always an array
+  let cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
+  if (!Array.isArray(cart)) {
+    cart = [];
+  }
+  
   products.forEach(product => {
     const productDiv = document.createElement("div");
     productDiv.classList.add("product");
 
-    const isInCart = cart.some(item => item.id === product.id);
+    // ✅ Use productId instead of _id to check if product is in cart
+    const isInCart = cart.some(item => item.productId === product._id);
 
     productDiv.innerHTML = `
       <img src="${product.image}" alt="${product.name}">
@@ -61,7 +73,7 @@ function renderProducts(products) {
       <p class="description">${product.description}</p>
       <p class="category">Category: ${product.categoryName}</p>
       <p class="price">₹${product.price}</p>
-      <button class="add-to-cart" data-id="${product.id}">
+      <button class="add-to-cart" data-id="${product._id}">
         ${isInCart ? "View Cart" : "Add to Cart"}
       </button>
     `;
@@ -74,16 +86,17 @@ function renderProducts(products) {
     if (isInCart) {
       // 🔹 If already in cart, clicking should directly go to cart page
       button.onclick = function () {
-        window.location.href = "cart.html";
+        window.location.href = "/Frontend/pages/cart.html";
       };
     } else {
       // 🔹 If not in cart, clicking should add the product
       button.addEventListener("click", function () {
-        addToCart(product, button,'/Frontend/pages/cart.html');
+        addToCart(product, button, '/Frontend/pages/cart.html');
       });
     }
   });
 }
+
 
 
 

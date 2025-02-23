@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .order-history-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .order {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .order:last-child {
+            border-bottom: none;
+        }
+        .order h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .order p {
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="order-history-container">
+        <h2>Order History</h2>
+        <div id="orderHistoryList">
+            <p>Loading order history...</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get order history from localStorage
+            let orderHistory = JSON.parse(localStorage.getItem("orderHistory")) || [];
+            
+            const orderHistoryList = document.getElementById("orderHistoryList");
+            orderHistoryList.innerHTML = ""; // Clear loading text
+
+            if (orderHistory.length === 0) {
+                orderHistoryList.innerHTML = "<p>No orders found.</p>";
+                return;
+            }
+
+            // Display each order
+            orderHistory.forEach((order, index) => {
+                const orderElement = document.createElement("div");
+                orderElement.classList.add("order");
+                orderElement.innerHTML = `
+                    <h3>Order #${index + 1}</h3>
+                    <p><strong>Name:</strong> ${order.fullName}</p>
+                    <p><strong>Address:</strong> ${order.address}</p>
+                    <p><strong>Shipping Address:</strong> ${order.shippingAddress}</p>
+                    <p><strong>Total Items:</strong> ${order.totalItems}</p>
+                    <p><strong>Total Price:</strong> ₹${order.totalPrice.toFixed(2)}</p>
+                    <p><strong>Discount:</strong> ₹${order.discount.toFixed(2)}</p>
+                    <p><strong>Platform Fee:</strong> ₹${order.platformFee}</p>
+                    <p><strong>Delivery Charges:</strong> ₹${order.deliveryCharges}</p>
+                    <p><strong>Total Amount:</strong> ₹${order.totalAmount.toFixed(2)}</p>
+                `;
+                orderHistoryList.appendChild(orderElement);
+            });
+        });
+    </script>
+</body>
+</html>

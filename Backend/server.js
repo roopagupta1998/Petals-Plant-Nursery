@@ -58,7 +58,6 @@ app.post('/login', async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
-
     res.status(200).json({ 
       message: 'Login successful',
       data: { 
@@ -90,52 +89,206 @@ app.post('/products', async (req, res) => {
     }
   });
 
-
-  app.post('/add-to-cart', async (req, res) => {
-    const { userId, productId, quantity } = req.body;
+  app.post('/addToCart', async (req, res) => {
+    const { productId, quantity,userId } = req.body;
+    // Check if required fields are present
+    if (!productId || !quantity) {
+        return res.status(400).json({ message: 'Product ID and quantity are required.' });
+    }
 
     try {
-        // Verify if user exists using _id from MongoDB
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(400).json({ message: 'Invalid user' });
-        }
-
-        // Verify if product exists using its _id
-        const product = await Product.findById(productId);
-        if (!product) {
-            return res.status(400).json({ message: 'Invalid product' });
-        }
-
-        // Check if the cart for the user already exists
+        // Find cart for the user
         let cart = await Cart.findOne({ userId });
 
         if (cart) {
-            // If product already exists in cart, update the quantity
-            let existingProduct = cart.items.find(item => item.productId.toString() === productId);
+            // Check if product already exists in the cart
+            const existingItem = cart.items.find(item => item.productId.toString() === productId);
 
-            if (existingProduct) {
-                existingProduct.quantity += quantity;
+            if (existingItem) {
+                // Update quantity
+                existingItem.quantity += quantity;
             } else {
-                // If product doesn't exist, add new item to the cart
+                // Add new product to cart
                 cart.items.push({ productId, quantity });
             }
+
             await cart.save();
+            res.status(200).json(cart);
         } else {
-            // Create a new cart for the user
-            cart = new Cart({
+            // Create new cart
+            const newCart = new Cart({
                 userId,
                 items: [{ productId, quantity }]
             });
+
+            await newCart.save();
+            res.status(201).json(newCart);
+        }
+    } catch (error) {
+        console.error('Error in addToCart:', error);
+        res.status(500).json({ message: 'Internal server error.' });
+    }
+});
+
+// // Fetch Cart API
+app.post('/fetchCart', async (req, res) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+      return res.status(400).json({ message: 'User ID is required.' });
+  }
+
+  try {
+      // Fetch cart from MongoDB by userId
+      const cart = await Cart.findOne({ userId }).populate('items.productId', 'name price image');
+      
+      if (cart) {
+          res.status(200).json({ cart });
+      } else {
+          res.status(404).json({ message: 'Cart not found.' });
+      }
+  } catch (error) {
+      console.error('Error fetching cart:', error);
+      res.status(500).json({ message: 'Internal server error.' });
+  }
+});
+
+
+app.post('/clearCart', async (req, res) => {
+    const { userId } = req.body;
+
+    if (!userId) {
+        return res.status(400).json({ message: 'User ID is required.' });
+    }
+
+    try {
+        // Find the cart by userId and clear items
+        const cart = await Cart.findOne({ userId });
+
+        if (cart) {
+            cart.items = []; // Clear all items
             await cart.save();
+            res.status(200).json({ message: 'Cart cleared successfully.' });
+        } else {
+            res.status(404).json({ message: 'Cart not found.' });
+        }
+    } catch (error) {
+        console.error('Error in clearCart:', error);
+        res.status(500).json({ message: 'Internal server error.' });
+    }
+});
+
+// Adjust Quantity API
+app.post('/adjustQuantity', async (req, res) => {
+    const { userId, productId, change } = req.body;
+
+    if (!userId || !productId || !change) {
+        return res.status(400).json({ message: 'Missing required fields.' });
+    }
+
+    try {
+        // Find cart by userId
+        const cart = await Cart.findOne({ userId });
+
+        if (!cart) {
+            return res.status(404).json({ message: 'Cart not found.' });
         }
 
-        res.status(200).json({ message: 'Cart updated successfully', cart });
+        // Find the product in cart
+        const item = cart.items.find(item => item.productId.toString() === productId);
+
+        if (!item) {
+            return res.status(404).json({ message: 'Product not found in cart.' });
+        }
+
+        // Adjust quantity
+        item.quantity += change;
+
+        // Remove item if quantity <= 0
+        if (item.quantity <= 0) {
+            cart.items = cart.items.filter(item => item.productId.toString() !== productId);
+        }
+
+        await cart.save();
+        res.status(200).json({ message: 'Quantity updated.', cart });
     } catch (error) {
-        console.error('Error adding to cart:', error);
+        console.error('Error adjusting quantity:', error);
+        res.status(500).json({ message: 'Internal server error.' });
+    }
+});
+
+app.get('/products/:productId', async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.productId);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.status(200).json(product);
+    } catch (error) {
+        console.error('Error fetching product:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+app.post('/order', async (req, res) => {
+    const { userId, fullName, address, shippingAddress } = req.body;
+
+    try {
+        // Check if userId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ message: 'Invalid User ID' });
+        }
+
+        // 1. Fetch Cart Details
+        const cart = await Cart.findOne({ userId: new mongoose.Types.ObjectId(userId) })
+                               .populate('items.productId');
+        
+        if (!cart || cart.items.length === 0) {
+            return res.status(400).json({ message: 'Cart is empty' });
+        }
+
+        // 2. Calculate Order Details
+        let totalItems = 0;
+        let totalPrice = 0;
+        const platformFee = 3;
+        const deliveryCharges = 30;
+        const discountRate = 0.05;
+
+        cart.items.forEach(item => {
+            totalItems += item.quantity;
+            totalPrice += item.productId.price * item.quantity;
+        });
+
+        const discount = totalPrice * discountRate;
+        const totalAmount = totalPrice - discount + platformFee + deliveryCharges;
+
+        // 3. Create Order
+        const newOrder = new Order({
+            userId,
+            fullName,
+            address,
+            shippingAddress,
+            totalItems,
+            totalPrice,
+            discount,
+            platformFee,
+            deliveryCharges,
+            totalAmount,
+            items: cart.items
+        });
+
+        await newOrder.save();
+
+        // 4. Clear Cart
+        await Cart.findOneAndDelete({ userId: new mongoose.Types.ObjectId(userId) });
+
+        res.status(201).json({ message: 'Order placed successfully' });
+    } catch (error) {
+        console.error('Order Placement Error:', error);
         res.status(500).json({ message: 'Server error' });
     }
 });
+
 // ================== Start Server ==================
 const PORT = 3000;
 app.listen(PORT, () => {

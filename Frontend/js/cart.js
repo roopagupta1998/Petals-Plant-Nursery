@@ -1,3 +1,5 @@
+import { addToCart,clearCartFromBackend,adjustCartQuantity,fetchCartFromBackend,fetchProductById} from "../js/api.js";
+
 document.addEventListener("DOMContentLoaded", function () {
         updateCartQuantity(); // On page load, update the cart quantity
 
@@ -14,15 +16,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function proceedToCheckout() {
     const isLoggedIn = Boolean(localStorage.getItem("user")); // Example check
-
     if (!isLoggedIn) {
         const confirmLogin = confirm("You are not logged in. Please login to proceed.");
         if (confirmLogin) {
             window.location.href = "login.html";
         }
     } else {
-        // alert()
         window.location.href = "checkout.html";
+       
     }
 }
 
@@ -41,28 +42,51 @@ function initializeCart() {
     updateCartUI();
 }
 
-// Function to add an item to the cart
-window.addToCart = function (product, buttonElement, pathToRedirect) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const userData = JSON.parse(localStorage.getItem("user"));
-    const userId = userData && userData.id ? userData.id : 'guest';  // Use user ID if logged in, otherwise 'guest'
+function isUserLoggedIn() {
+    const user = localStorage.getItem('user');
+    return user && JSON.parse(user)._id;
+}
 
-    let existingProduct = cart.find(item => item.id === product.id);
+function getUserCartKey() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user ? `cart_${user._id}` : 'tempCart';
+}
+
+// Function to add an item to the cart
+window.addToCart = async function (product, buttonElement, pathToRedirect) {
+    const cartKey = getUserCartKey();
+    let cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
+    if (!Array.isArray(cart)) {
+      cart = [];
+    }
+        const isLoggedIn = isUserLoggedIn();
+
+    // Check if the product already exists in the cart
+    let existingProduct = cart.find(item => item._id === product._id);
     if (!existingProduct) {
-        // If the product isn't in the cart, add it with quantity 1 and user ID
         product.quantity = 1;
-        product.userId = userId;  // Set userId
         cart.push(product);
-        alert(`${product.name} added to cart!`);  // Show alert when product is added
+        alert(`${product.name} added to cart!`);
     } else {
-        // If the product already exists, increase its quantity
         existingProduct.quantity += 1;
     }
 
-    localStorage.setItem("cart", JSON.stringify(cart)); // Save updated cart
-    updateCartUI(); // Update the cart UI
-    updateCartQuantity();  // Update the cart quantity wherever it's displayed
+    // Save to localStorage
+    localStorage.setItem(cartKey, JSON.stringify(cart));
+    updateCartUI();
+    updateCartQuantity();
 
+    // If logged in, sync with backend
+    if (isLoggedIn) {
+        try {
+            const response = await addToCart(product._id, product.quantity,isLoggedIn);
+       
+        } catch (error) {
+            console.error("❌ Error in addToCart:", error);
+        }
+    }
+
+// Update the button to "View Cart"
     // 🔹 Directly Update the Button to "View Cart" **Immediately**
     if (buttonElement) {
         buttonElement.textContent = "View Cart";
@@ -70,12 +94,17 @@ window.addToCart = function (product, buttonElement, pathToRedirect) {
             window.location.href = pathToRedirect; // Redirect to cart page
         };
     }
+
 };
 
 // Function to update the cart UI
 function updateCartUI() {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let cartContainer = document.getElementById("cartItems");
+    const cartKey = getUserCartKey(); // Get cart key based on user login status
+    let cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
+    if (!Array.isArray(cart)) {
+      cart = [];
+    }
+        let cartContainer = document.getElementById("cartItems");
     let checkoutButton = document.getElementById("checkout-button");
     let totalPriceElement = document.getElementById("totalPrice");
 
@@ -101,9 +130,9 @@ function updateCartUI() {
         itemDiv.innerHTML = `
             <p class="product-name">${item.name}</p>
             <div class="quantity-controls">
-                <button class="quantity-decrease" data-id="${item.id}">-</button>
+                <button class="quantity-decrease" data-id="${item._id}">-</button>
                 <span class="quantity">${item.quantity}</span>
-                <button class="quantity-increase" data-id="${item.id}">+</button>
+                <button class="quantity-increase" data-id="${item._id}">+</button>
             </div>
             <p class="product-price">₹${item.price * item.quantity}</p>
         `;
@@ -115,7 +144,7 @@ function updateCartUI() {
     totalPriceElement.innerText = `Total: ₹${total}`;
     checkoutButton.disabled = false;
 
-    attachQuantityEvents();
+    attachQuantityEvents(); // Attach event listeners to quantity buttons
 }
 
 // Function to handle quantity changes
@@ -133,38 +162,134 @@ function attachQuantityEvents() {
     });
 }
 
-// Adjust the quantity of a product in the cart
-function adjustQuantity(productId, change) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let product = cart.find(item => item.id === productId);
-
-    if (product) {
-        product.quantity += change;
-        if (product.quantity <= 0) {
-            cart = cart.filter(item => item.id !== productId); // Remove item if quantity is 0
-        }
+// Helper function to fetch product details by productId
+async function fetchProductDetailsById(productId) {
+    try {
+        const response = await fetchProductById(productId);
+        
+        return response;
+    } catch (error) {
+        console.error('Error fetching product details:', error);
+        return null;
     }
+}
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    updateCartUI();
+// Adjust the quantity of a product in the cart
+async function adjustQuantity(productId, change) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user ? user._id : null;
+    const cartKey = userId ? `cart_${userId}` : 'tempCart';
+    let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+
+    if (userId) {
+        // For logged-in users, call backend API
+        try {
+            const response = await adjustCartQuantity(userId, productId, change);
+            console.log("Backend response:", response);
+
+            if (response && response.cart && response.cart.items) {
+                // 🔹 Fetch detailed product data for each item
+                const detailedCart = await Promise.all(response.cart.items.map(async (item) => {
+                    const productDetails = await fetchProductDetailsById(item.productId);
+                    if (productDetails) {
+                        // Merge product details with quantity
+                        return {
+                            ...productDetails,
+                            quantity: item.quantity
+                        };
+                    } else {
+                        console.error('Product details not found:', item.productId);
+                        return item;
+                    }
+                }));
+
+                // 🔹 Update local storage with detailed cart data
+                localStorage.setItem(cartKey, JSON.stringify(detailedCart));
+
+                // 🔹 Refresh UI after updating local storage
+                updateCartUI();
+                updateCartQuantity();
+            } else {
+                console.error("❌ Failed to get updated cart from backend.");
+            }
+        } catch (error) {
+            console.error('Error adjusting quantity:', error);
+        }
+    } else {
+        // 🔹 For non-logged-in users, update localStorage directly
+        let product = cart.find(item => item._id === productId);
+
+        if (product) {
+            product.quantity += change;
+
+            // Remove item if quantity is 0 or less
+            if (product.quantity <= 0) {
+                cart = cart.filter(item => item._id !== productId);
+            }
+        }
+
+        // 🔹 Update local storage
+        localStorage.setItem(cartKey, JSON.stringify(cart));
+
+        // 🔹 Refresh UI
+        updateCartUI();
+        updateCartQuantity();
+    }
 }
 
 // Function to update the cart quantity (the number of items in the cart)
-function updateCartQuantity() {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let cartQuantity = cart.reduce((total, item) => total + item.quantity, 0); // Total quantity of all items
-  
-    // Select all elements with the 'quantity' class (the cart quantity indicator)
-    let quantityElements = document.querySelectorAll('.quantity');
-  
-    // Update each element with the cart quantity
+async function updateCartQuantity() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const cartKey = getUserCartKey(); // Get cart key based on user login status
+    let cart = [];
+
+    if (user) {
+        // If user is logged in, fetch cart from backend
+        try {
+            const cartData = await fetchCartFromBackend(user._id);
+            console.log("cartData",cartData)
+            if (cartData && cartData.items) {
+                cart = cartData.items;
+                localStorage.setItem(cartKey, JSON.stringify(cart)); // Sync with localStorage
+            }
+        } catch (error) {
+            console.error('Error fetching cart:', error);
+        }
+    } else {
+        // If not logged in, use localStorage cart
+        cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+    }
+
+    // Calculate total quantity of all items
+    let cartQuantity = cart.reduce((total, item) => total + item.quantity, 0);
+
+    // Select the cart quantity indicator (e.g., the cart icon badge)
+    let quantityElements = document.querySelectorAll('.cart-quantity');
+
+    // Update each element with the total cart quantity
     quantityElements.forEach(element => {
-      element.textContent = cartQuantity > 0 ? cartQuantity : 0; // Show cart quantity, or 0 if empty
+        element.textContent = cartQuantity > 0 ? cartQuantity : ""; // Show quantity or nothing if empty
     });
-  }
+}
 
 // Function to clear the cart
 window.clearCart = function () {
-    localStorage.removeItem("cart");
+    const cartKey = getUserCartKey();
+
+    // Clear the specific cart from localStorage
+    localStorage.removeItem(cartKey);
+
+    // Update UI
     updateCartUI();
+    updateCartQuantity();
+    const userId = isUserLoggedIn();
+
+    // If the user is logged in, also clear the backend cart
+    if (cartKey.startsWith('cart_')) {
+        clearCartFromBackend(userId)
+            .then(() => console.log('Backend cart cleared.'))
+            .catch(error => console.error('Error clearing backend cart:', error));
+    }
 };
+
+
