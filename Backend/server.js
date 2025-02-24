@@ -288,6 +288,77 @@ app.post('/order', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+app.get('/users', async (req, res) => {
+    try {
+      const users = await User.find();
+      res.status(200).json(users);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
+
+// Add User Route
+app.post('/users', async (req, res) => {
+    const { name, email, password, isAdmin } = req.body;
+
+    try {
+        // Create a new user instance
+        const newUser = new User({
+            name,
+            email,
+            password,
+            isAdmin: isAdmin || false  // Default to false if not provided
+        });
+
+        // Save the user to the database
+        await newUser.save();
+
+        res.status(200).json({ message: 'User added successfully' });
+    } catch (error) {
+        console.error('Error adding user:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// Delete User by ID
+app.delete('/users/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const deletedUser = await User.findByIdAndDelete(userId);
+
+        if (!deletedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+});
+
+// Update User
+app.put('/users/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, email, isAdmin } = req.body;
+
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            { name, email, isAdmin },
+            { new: true }  // Return the updated document
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json(updatedUser);
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 
 // ================== Start Server ==================
 const PORT = 3000;

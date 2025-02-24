@@ -106,3 +106,53 @@ export async function placeOrder(orderDetails) {
 }
   return response.json();
 }
+
+export async function getUsers() {
+  const response = await fetch(`${API_BASE_URL}/users`);
+  return response.json();
+}
+
+export async function addUser(userDetails) {
+  const response = await fetch(`${API_BASE_URL}/users`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userDetails)
+  });
+  if (!response.ok) {
+    console.error("❌ n error occurred while adding user",response);
+}
+  return response.json();
+}
+
+export async function deleteUser(userId) {
+  const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
+      method: 'DELETE',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  });
+
+  if (!response.ok) {
+      console.error("❌ An error occurred while deleting the user", response);
+  }
+
+  return response.json();
+}
+
+export async function updateUser(userId, userDetails) {
+  const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userDetails)
+  });
+
+  if (!response.ok) {
+      console.error("❌ An error occurred while updating the user", response);
+  }
+
+  return response.json();
+}

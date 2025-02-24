@@ -4,51 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/users.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>User Management</title>
 </head>
 <body>
+
+    <h2 class="form-title">Add User</h2>
+    <form id="addUserForm">
+        <label for="name">User Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <!-- <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required> -->
+
+        <div class="checkbox-group">
+            <input type="checkbox" id="isAdmin" name="isAdmin">
+            <label for="isAdmin">Make Admin:</label>
+
+        </div>
+        <input type="hidden" id="userId">
+
+        <button type="submit" id="submitBtn">Add User</button>
+    </form>
+
+    <h2 class="table-title">User List</h2>
     <table>
-        <tr>
-            <th>User_id</th>
-            <th>User_Name</th>
-            <th>Emil_id</th>
-            <th>First_Name</th>
-            <th>Last_Name</th>
-            <th>Actions</th>
-        </tr>
-        <tr>
-            <td>001</td>
-            <td>Bhumi</td>
-            <td>prajapati.bhumi012@gmail.com</td>
-            <td>Bhumi</td>
-            <td>Prajapati</td>
-            <td>Edit/Delete</td>
-        </tr>
-        <tr>
-            <td>002</td>
-            <td>Kajal</td>
-            <td>prajapati.kajal027@gmail.com</td>
-            <td>Kajal</td>
-            <td>Prajapati</td>
-            <td>Edit/Delete</td>
-        </tr>
-        <tr>
-            <td>003</td>
-            <td>Manoj</td>
-            <td>Naik.Manoj012@gmail.com</td>
-            <td>Manoj</td>
-            <td>Naik</td>
-            <td>Edit/Delete</td>
-        </tr>
-        <tr>
-            <td>004</td>
-            <td>Tanya</td>
-            <td>Naik.Tanya012@gmail.com</td>
-            <td>Tanya</td>
-            <td>Naik</td>
-            <td>Edit/Delete</td>
-        </tr>
-        
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>User Name</th>
+                <th>Email ID</th>
+                <th>Is Admin</th>  <!-- Added this line -->
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="userTableBody">
+            <!-- Dynamic rows will be added here -->
+        </tbody>
     </table>
+
+    <script type="module" src="../../js/users.js"></script>
 </body>
 </html>

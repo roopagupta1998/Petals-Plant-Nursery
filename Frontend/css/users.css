@@ -1,22 +1,82 @@
 * {
-    
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-   
-body{
-    margin: 0px;
-  
+
+body {
     background-image: url("https://static.vecteezy.com/system/resources/thumbnails/031/624/325/small_2x/background-for-productgraphy-ai-generated-photo.jpg");
     background-repeat: no-repeat;
     background-size: cover;
+    font-family: Arial, sans-serif;
+}
+
+/* Form Styles */
+form#addUserForm {
+    width: 50%;
+    margin: 5% auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 2px solid #085610;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+form#addUserForm h2 {
+    text-align: center;
+    color: #085610;
+    margin-bottom: 20px;
+}
+
+form#addUserForm label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #0b570d;
+    font-weight: bold;
+}
+
+form#addUserForm input[type="text"],
+form#addUserForm input[type="email"],
+form#addUserForm input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+/* Make Admin Checkbox Inline */
+form#addUserForm .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+.form-title, .table-title {
+    text-align: center;
+    width: 100%;
+}
+
+form#addUserForm button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #0b570d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+form#addUserForm button:hover {
+    background-color: #085610;
 }
 
 /* Table Styles */
 table {
     width: 80%;
-    margin: 10% auto;
+    margin: 2% auto;
     border-collapse: collapse;
     border: 2px solid #085610;
 }
@@ -35,6 +95,7 @@ th {
 tr:nth-child(even) {
     background-color: #327fba;
 }
+
 tr:nth-child(odd) {
     background-color: #d9eaee;
 }
