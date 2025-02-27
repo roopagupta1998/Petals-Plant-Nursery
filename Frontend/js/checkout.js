@@ -73,15 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
             try {
                 const result = await placeOrder(orderDetails);
                 if (result) {
-                    // Get existing order history or initialize as empty array
-                    let orderHistory = JSON.parse(localStorage.getItem("orderHistory")) || [];
-                    
-                    // Add new order to history
-                    orderHistory.push(orderDetails);
-                    
-                    // Save updated order history to localStorage
-                    localStorage.setItem("orderHistory", JSON.stringify(orderHistory));
-                    
                     // Clear the cart
                     localStorage.removeItem(cartKey);
             

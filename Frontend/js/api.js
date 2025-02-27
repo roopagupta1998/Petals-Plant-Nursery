@@ -156,3 +156,25 @@ export async function updateUser(userId, userDetails) {
 
   return response.json();
 }
+export async function getOrderHistory (userId) {
+  const response = await fetch(`${API_BASE_URL}/order_history/${userId}`);
+  return response.json();
+}
+
+export async function addProduct(productData) {
+  const response = await fetch(`${API_BASE_URL}/add_products`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(productData)
+  });
+
+  if (!response.ok) {
+      console.error("❌ An error occurred while adding the product", response);
+      throw new Error('Failed to add product');
+  }
+
+  return response.json();
+}
+

@@ -5,34 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
     <link rel="stylesheet" href="../../css/addproduct.css">
+
 </head>
+
 <body>
 
     <div class="container">
-        <!-- Button to show the form -->
-        <!-- <button id="add-product-btn">Add Product</button> -->
-        
-        <!-- Product form initially hidden -->
+        <!-- Product form -->
         <div class="form-container" id="product-form">
             <h2>Add New Product</h2>
             <form action="#" method="post" enctype="multipart/form-data">
                 <label for="product-name">Product Name:</label>
                 <input type="text" id="product-name" name="product-name" placeholder="Enter product name" required>
                 
-
-                <label for="price">Price ($):</label>
+                <label for="categoryName">Category:</label>
+                <select id="categoryName" name="categoryName" required>
+                    <option value="Plants" selected>Plants</option>
+                    <option value="Accessories">Accessories</option>
+                    <option value="Seeds">Seeds</option>
+                    <option value="Soil & Fertilizers">Soil & Fertilizers</option>
+                    <option value="Featured Plants">Featured Plants</option>
+                </select>
+                
+                
+                <label for="price">Price (₹):</label>
                 <input type="number" id="price" name="price" placeholder="Enter price" required>
                 
-                <label for="image">Product Image:</label>
-                <input type="file" id="image" name="image" accept="image/*" required>
+                <label for="image">Product Image URL:</label>
+                <input type="text" id="image" name="image" placeholder="Paste image URL here" required>
                 
                 <label for="description">Description:</label>
-                <textarea id="description" name="description" placeholder="Enter product description" required></textarea>
+                <textarea id="description" name="description" placeholder="Enter product description"></textarea>
                 
                 <button type="submit">Submit Product</button>
                 <button type="button" id="cancel-btn">Cancel</button>
             </form>
         </div>
     </div>
+    <script src="../../js/addproduct.js" type="module"></script>
+
 </body>
 </html>

@@ -110,3 +110,21 @@ button:hover {
 #cancel-btn:hover {
     background-color: #71100e;
 }
+/* Dropdown Styles */
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    appearance: none;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    border-color: #0e4510;
+    box-shadow: 0 0 5px rgba(14, 69, 16, 0.5);
+}

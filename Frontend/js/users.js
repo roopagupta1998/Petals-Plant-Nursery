@@ -44,7 +44,6 @@ document.getElementById('addUserForm').addEventListener('submit', async (e) => {
         email: document.getElementById('email').value,
         isAdmin: document.getElementById('isAdmin').checked
     };
-debugger
     if (userId) {
         // Update User
         await updateUser(userId, userDetails);

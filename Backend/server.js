@@ -360,6 +360,47 @@ app.put('/users/:id', async (req, res) => {
     }
 });
 
+app.get('/order_history/:id', async (req, res) => {
+    console.log("Reached order history endpoint");
+    const userId = req.params.id;
+    
+    try {
+        const orders = await Order.find({ userId: userId }) // Filter by userId
+            .populate({
+                path: 'items.productId',
+                model: 'Product',
+                select: 'name price image'
+            });
+
+        res.json(orders);
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+// Add New Product
+app.post('/add_products', async (req, res) => {
+    try {
+        console.log("reached")
+        const { name, price, description, image, categoryName } = req.body;
+
+        const newProduct = new Product({
+            name,
+            price,
+            description,
+            image, // Directly saving the image URL as a string
+            categoryName
+        });
+
+        await newProduct.save();
+        res.status(201).json({ message: 'Product added successfully!' });
+    } catch (error) {
+        console.error('Error adding product:', error);
+        res.status(500).json({ message: 'Failed to add product.' });
+    }
+});
+
 // ================== Start Server ==================
 const PORT = 3000;
 app.listen(PORT, () => {

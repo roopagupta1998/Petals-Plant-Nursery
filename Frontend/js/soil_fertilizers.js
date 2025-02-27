@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Function to fetch and display only plant products
 async function loadPlants() {
   const products = await fetchProducts();
-  const plants = products.filter(product => product.categoryName === "Seeds");
+  const plants = products.filter(product => product.categoryName === "Soil & Fertilizers");
   renderProducts(plants);
 }
 
