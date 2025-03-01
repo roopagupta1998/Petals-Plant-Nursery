@@ -63,7 +63,8 @@ app.post('/login', async (req, res) => {
       data: { 
           _id: user._id, // Assuming MongoDB is used
           email: email,
-          name:user.name 
+          name:user.name,
+          isAdmin:user.isAdmin
       } 
   });  });
   
@@ -303,6 +304,10 @@ app.post('/users', async (req, res) => {
     const { name, email, password, isAdmin } = req.body;
 
     try {
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+          return res.status(400).json({ message: 'User already exists' });
+        }
         // Create a new user instance
         const newUser = new User({
             name,
@@ -343,6 +348,10 @@ app.put('/users/:id', async (req, res) => {
         const { id } = req.params;
         const { name, email, isAdmin } = req.body;
 
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+          return res.status(400).json({ message: 'User already exists' });
+        }
         const updatedUser = await User.findByIdAndUpdate(
             id,
             { name, email, isAdmin },
