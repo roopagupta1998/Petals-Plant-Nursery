@@ -55,6 +55,7 @@ document.getElementById('addUserForm').addEventListener('submit', async (e) => {
 
     // Clear the form
     document.getElementById('addUserForm').reset();
+    document.getElementById('userId').value = '';
     document.getElementById('submitBtn').textContent = 'Add User';
 
     // Refresh the user list

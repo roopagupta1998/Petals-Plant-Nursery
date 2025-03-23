@@ -3,6 +3,14 @@ import { handleLogoutButton } from "../js/logout.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const user = JSON.parse(localStorage.getItem("user"));
+  if(user){
+    document.getElementById("settingsDropdown").style.display = "block"; // Show Settings tab
+    document.getElementById("orderHistory").style.display = "block"; // Show Order History
+  }
+  if (user && user.isAdmin) {
+    document.getElementById("manageProduct").style.display = "block";
+    document.getElementById("manageUsers").style.display = "block";
+  }
   const welcomeMessage = document.getElementById("welcomeMessage");
 
   welcomeMessage.textContent = user && user.name 

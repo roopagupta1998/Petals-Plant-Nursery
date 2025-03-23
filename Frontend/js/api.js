@@ -120,10 +120,12 @@ export async function addUser(userDetails) {
       },
       body: JSON.stringify(userDetails)
   });
+  const data = await response.json();
   if (!response.ok) {
     console.error("❌ n error occurred while adding user",response);
+    alert(data.message || "Failed to register user.");
 }
-  return response.json();
+  return data;
 }
 
 export async function deleteUser(userId) {
@@ -133,12 +135,14 @@ export async function deleteUser(userId) {
           'Content-Type': 'application/json'
       }
   });
+  const data = await response.json();
 
   if (!response.ok) {
       console.error("❌ An error occurred while deleting the user", response);
+      alert(data.message || "Failed to register user.");
   }
 
-  return response.json();
+  return data;
 }
 
 export async function updateUser(userId, userDetails) {
@@ -149,12 +153,14 @@ export async function updateUser(userId, userDetails) {
       },
       body: JSON.stringify(userDetails)
   });
-
+  const data = await response.json();
+  debugger
   if (!response.ok) {
       console.error("❌ An error occurred while updating the user", response);
+      alert(data.message || "Failed to register user.");
   }
 
-  return response.json();
+  return data;
 }
 export async function getOrderHistory (userId) {
   const response = await fetch(`${API_BASE_URL}/order_history/${userId}`);

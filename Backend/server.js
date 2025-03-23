@@ -345,29 +345,36 @@ app.delete('/users/:id', async (req, res) => {
 // Update User
 app.put('/users/:id', async (req, res) => {
     try {
-        const { id } = req.params;
-        const { name, email, isAdmin } = req.body;
-
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-          return res.status(400).json({ message: 'User already exists' });
+      const { id } = req.params;
+      const { name, email, isAdmin } = req.body;
+  
+      // Check if user exists
+      const user = await User.findById(id);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Check if email is being updated and validate uniqueness
+      if (user.email !== email) {
+        const existingUserCount = await User.countDocuments({ email, _id: { $ne: id } });
+        if (existingUserCount > 0) {
+          return res.status(400).json({ message: 'User with this email already exists' });
         }
-        const updatedUser = await User.findByIdAndUpdate(
-            id,
-            { name, email, isAdmin },
-            { new: true }  // Return the updated document
-        );
-
-        if (!updatedUser) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        res.json(updatedUser);
+      }
+  
+      // Perform the update
+      user.name = name;
+      user.email = email;
+      user.isAdmin = isAdmin;
+      const updatedUser = await user.save();
+  
+      res.json(updatedUser);
     } catch (error) {
-        console.error('Error updating user:', error);
-        res.status(500).json({ message: 'Server error' });
+      console.error('Error updating user:', error);
+      res.status(500).json({ message: 'Server error' });
     }
-});
+  });
+  
 
 app.get('/order_history/:id', async (req, res) => {
     console.log("Reached order history endpoint");
